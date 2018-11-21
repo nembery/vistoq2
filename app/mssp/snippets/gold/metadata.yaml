@@ -2,7 +2,7 @@ name: gold
 label: Gold
 description: Gold Advanced Security
 type: service
-extends: vistoq_baseline
+extends: skillet
 variables:
   - name: FW_NAME
     description: Device Name
@@ -18,96 +18,40 @@ variables:
     type_hint: text
   - name: IP_12
     description: IP 12
-    default: 0.0.0.0
-    type_hint: ip_address
-  - name: NTP_1
-    description: Network Time Protocol Server
-    default: 0.0.0.0
-    type_hint: ip_address
-  - name: NTP_2
-    description: Network Time Protocol Server 2
-    default: 0.0.0.0
+    default: 192.168.1.1/24
     type_hint: ip_address
   - name: ZONE_TRUST
     description: trust zone
-    default: egress
+    default: trust
     type_hint: text
   - name: ZONE_UNTRUST
     description: untrust zone name
-    default: ingress
+    default: internet
     type_hint: text
 
 snippets:
-  - name: device_group-devicegroup
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group
-    file: devicegroup.xml
-  - name: profile-virus
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profiles/virus
-    file: virus.xml
-  - name: profile-spyware
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profiles/spyware
-    file: spyware.xml
-  - name: profile-vulnerability
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profiles/vulnerability
-    file: vulnerability.xml
-  - name: profile-file-blocking
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profiles/file-blocking
-    file: file-blocking.xml
-  - name: profile-url-filtering
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profiles/url-filtering
-    file: url-filtering.xml
-  - name: profile-wildfire-analysis
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profiles/wildfire-analysis
-    file: wildfire-analysis.xml
-  - name: profile_group-gold-base
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profile-group/entry[@name='gold-base']
-    file: gold-base.xml
-  - name: profile_group-gold-unknown-url
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profile-group/entry[@name='gold-unknown-url']
-    file: gold-unknown-url.xml
-  - name: service-non-default-ssl
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/service
-    file: non-default-ssl.xml
+  - name: profile_group_unknown_url
+    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/profile-group
+    file: profile_group_unknown_url.xml
   - name: nat-source-nat-to-untrust
     xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/post-rulebase/nat
-    file: source-nat-to-untrust.xml
+    file: source_nat_to_untrust.xml
   - name: security_rules-security-rules-gold
     xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/post-rulebase/security
-    file: security-rules-gold.xml
-  - name: default_security_rules-default-security-rules
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/post-rulebase/default-security-rules
-    file: default-security-rules.xml
-  - name: template-template
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template
-    file: template.xml
-  - name: update_schedule-update-schedule
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/deviceconfig/system/update-schedule
-    file: update-schedule.xml
-  - name: log_settings-log-settings
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/shared/log-settings
-    file: log-settings.xml
-  - name: log_profile-log-profile
-    xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/log-settings/profiles
-    file: log-profile.xml
+    file: security_rules_gold.xml
   - name: network_profiles-network-profiles
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/network/profiles
-    file: network-profiles.xml
-  - name: interface-interface
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/network/interface
+    xpath: /config/devices/entry[@name='localhost.localdomain']/template-stack/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/network/profiles
+    file: network_profiles.xml
+  - name: interface
+    xpath: /config/devices/entry[@name='localhost.localdomain']/template-stack/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/network/interface
     file: interface.xml
-  - name: virtual_router-virtual-router
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/network/virtual-router
-    file: virtual-router.xml
-  - name: import-import
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/import
-    file: import.xml
-  - name: zone-zone
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/zone
+  - name: virtual_router
+    xpath: /config/devices/entry[@name='localhost.localdomain']/template-stack/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/network/virtual-router
+    file: virtual_router.xml
+  - name: import_zone_interface
+    xpath: /config/devices/entry[@name='localhost.localdomain']/template-stack/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/import
+    file: zone_import_interface.xml
+  - name: zone
+    xpath: /config/devices/entry[@name='localhost.localdomain']/template-stack/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/vsys/entry[@name='vsys1']/zone
     file: zone.xml
-  - name: wildfire-wildfire
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/deviceconfig/setting/wildfire
-    file: wildfire.xml
-  - name: ntp-servers-ntp-servers
-    xpath: /config/devices/entry[@name='localhost.localdomain']/template/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/deviceconfig/system/ntp-servers
-    file: ntp-servers.xml
 

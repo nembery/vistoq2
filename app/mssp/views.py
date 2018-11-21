@@ -49,7 +49,8 @@ class ConfigureServiceView(MSSPBaseAuth, MSSPBaseFormView):
         customer_name = form.cleaned_data['customer_name']
         service_term = form.cleaned_data['service_term']
         service = snippet_utils.load_snippet_with_name(service_name)
-        print(service)
+        #print('service is:')
+        #print(service)
         dynamic_form = self.generate_dynamic_form(service)
         context = self.get_context_data()
         context['customer_name'] = customer_name
@@ -131,6 +132,8 @@ class ViewServicesView(MSSPBaseAuth, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         service_list = pan_utils.get_device_groups_from_panorama()
+        print('getting service list')
+        print(service_list)
         context['service_list'] = service_list
         return context
 
