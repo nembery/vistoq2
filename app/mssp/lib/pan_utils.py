@@ -27,6 +27,7 @@ def panorama_login():
             if 'api_key' not in credentials:
                 print('Setting API KEY')
                 api_key = xapi_obj.keygen()
+                print('api_key is {0}'.format(api_key))
                 cache.set('panorama_api_key', api_key, timeout=300)
         else:
             print('Found it in memory!')
@@ -62,7 +63,7 @@ def get_panorama_credentials():
 
     api_key = cache.get('panorama_api_key')
     if api_key is not None:
-        print('Using API KEY')
+        print('Using API KEY: {0}'.format(api_key))
         credentials['api_key'] = api_key
 
     print(credentials)
@@ -89,8 +90,8 @@ def push_service(service, context):
                 xpath_template = Environment(loader=BaseLoader()).from_string(xpath)
                 xml_snippet = xml_template.render(context).replace('\n', '')
                 xpath_string = xpath_template.render(context)
-                print('Pushing xpath: %s' % xpath)
-                print('Pushing element: %s' % xml_snippet)
+                print('Pushing xpath: %s' % xpath_string)
+                # print('Pushing element: %s' % xml_snippet)
                 xapi.set(xpath=xpath_string, element=xml_snippet)
 
         xapi.commit('<commit/>', sync=True)
@@ -131,8 +132,10 @@ def validate_snippet_present(service, context):
             xapi.get(xpath=xpath_string)
             if xapi.status_code == '19' or xapi.status_code == '20':
                 print('xpath is already present')
+                print(xpath)
             elif xapi.status_code == '7':
                 print('xpath was NOT found')
+                print(xpath)
                 return False
 
         # all xpaths were found

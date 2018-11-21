@@ -3,7 +3,7 @@
         <layer3>
         <member>{{ INTF_UNTRUST }}</member>
       </layer3>
-      <zone-protection-profile>MSSP-zone-protection</zone-protection-profile>
+      <zone-protection-profile>Recommended_Zone_Protection</zone-protection-profile>
     </network>
   </entry>
   <entry name="{{ ZONE_TRUST }}">
@@ -11,7 +11,7 @@
      <layer3>
         <member>{{ INTF_TRUST }}</member>
       </layer3>
-      <zone-protection-profile>MSSP-zone-protection</zone-protection-profile>
+      <zone-protection-profile>Recommended_Zone_Protection</zone-protection-profile>
     </network>
   </entry>
 
