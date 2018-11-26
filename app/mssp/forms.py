@@ -3,7 +3,13 @@ from django import forms
 
 class SimpleDemoForm(forms.Form):
     customer_name = forms.CharField(label='Customer Name', max_length=100)
-    service_tier = forms.ChoiceField(choices=(('gold', 'Gold'), ('silver', 'Silver'), ('bronze', 'Bronze'), ('skillet', 'Skillet')))
+    service_tier = forms.ChoiceField(choices=(
+                                        ('gold', 'Gold'),
+                                        ('silver', 'Silver'),
+                                        ('bronze', 'Bronze'),
+                                        #('skillet', 'Skillet'),
+                                        #('skillet_demo', 'Skillet_demo')
+                                    ))
     platform_sizing = forms.ChoiceField(choices=(('small', 'Small'), ('medium', 'Medium'), ('large', 'Large')))
     service_term = forms.ChoiceField(choices=(('3', '3 Year'), ('2', '2 Year'), ('1', '1 Year')))
 

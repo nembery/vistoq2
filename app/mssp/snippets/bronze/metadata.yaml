@@ -1,8 +1,8 @@
-name: silver
-label: Silver
-description: Silver Advanced Security
+name: bronze
+label: Bronze
+description: Bronze Basic Security
 type: service
-extends: skillet_silver
+extends: skillet_bronze
 variables:
   - name: FW_NAME
     description: Device Name
@@ -33,9 +33,9 @@ snippets:
   - name: nat-source-nat-to-untrust
     xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/post-rulebase/nat
     file: source_nat_to_untrust.xml
-  - name: security_rules-security-rules-silver
+  - name: security_rules-security-rules-bronze
     xpath: /config/devices/entry[@name='localhost.localdomain']/device-group/entry[@name='{{ FW_NAME }}']/post-rulebase/security
-    file: security_rules_silver.xml
+    file: security_rules_bronze.xml
   - name: network_profiles-network-profiles
     xpath: /config/devices/entry[@name='localhost.localdomain']/template-stack/entry[@name='{{ FW_NAME }}']/config/devices/entry[@name='localhost.localdomain']/network/profiles
     file: network_profiles.xml

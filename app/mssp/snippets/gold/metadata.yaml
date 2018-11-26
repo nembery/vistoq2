@@ -2,7 +2,7 @@ name: gold
 label: Gold
 description: Gold Advanced Security
 type: service
-extends: skillet
+extends: skillet_gold
 variables:
   - name: FW_NAME
     description: Device Name
